@@ -116,12 +116,16 @@ class Calculator {
         const trimmedInput = input.trim();
         let asciiString = '';
         for (const char of trimmedInput) {
-            asciiString += char.charCodeAt(0);
+            if (isNaN(parseInt(char, 10))) {
+                asciiString += char.charCodeAt(0);
+            } else {
+                asciiString += char;
+            }
         }
         const parsedNumber = parseFloat(asciiString);
         if (isNaN(parsedNumber)) {
             console.log('Invalid number. Please try again.');
-            return 0;
+            return this.currentValue;
         } else {
             return parsedNumber;
         }
