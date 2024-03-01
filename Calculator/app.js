@@ -34,7 +34,7 @@ class Calculator {
         });
         if (this.currentValue === null) {
             rl.question('Enter a number: ', (numStr) => {
-                this.currentValue = parseFloat(numStr);
+                this.currentValue = this.parseNumber(numStr);
                 console.log(`Current value: ${this.currentValue}`);
                 rl.close();
                 this.start();
@@ -57,7 +57,7 @@ class Calculator {
                     }
                     else {
                         rl.question('Enter a number: ', (numStr) => {
-                            const num = parseFloat(numStr);
+                            const num = this.parseNumber(numStr);
                             this.performOperation(operation, num);
                             console.log(`Current value: ${this.currentValue}`);
                             rl.close();
@@ -109,6 +109,26 @@ class Calculator {
                     console.log('Cannot divide by zero.');
                 }
                 break;
+        }
+    }
+    parseNumber(input) {
+        const trimmedInput = input.trim();
+        let asciiString = '';
+        for (const char of trimmedInput) {
+            if (isNaN(parseInt(char, 10))) {
+                asciiString += char.charCodeAt(0);
+            }
+            else {
+                asciiString += char;
+            }
+        }
+        const parsedNumber = parseFloat(asciiString);
+        if (isNaN(parsedNumber)) {
+            console.log('Invalid number. Please try again.');
+            return this.currentValue;
+        }
+        else {
+            return parsedNumber;
         }
     }
     sayGoodbye() {
